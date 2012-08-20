@@ -18,10 +18,15 @@ var Library = function() {
     else {
       return num;
     };
+  },
+  matchURL = function( string ) {
+    var remu = new RegExp( "^(http:|https:)");
+    return remu.test( string );
   };
   return {
     "changeSeperator": changeSeperator,
-    "stringToNumber": stringToNumber
+    "stringToNumber": stringToNumber,
+    "matchURL": matchURL
   };
 };
 
@@ -29,6 +34,7 @@ var lib = new Library();
 try {
   console.log( lib.changeSeperator( "Hello, world", ", ", " " ));
   console.log( lib.stringToNumber( "42" ));
+  console.log( lib.matchURL( "https://www.w3schools.com" ));
 }
 catch( e ) {
  alert( e.message );

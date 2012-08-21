@@ -7,17 +7,15 @@
 
 var Library = function() {
   var changeSeperator = function( string, seperator1, seperator2 ){
-    var str = string.split( seperator1 );
+    var str = string.split( seperator1 ), key;
     return str.join( seperator2 );
   },
   stringToNumber = function( string ) {
     var num = parseInt( string );
     if( isNaN( num )) {
-      throw "isNaN: " + string + ".";
-    }
-    else {
-      return num;
+      return null;
     };
+    return num;
   },
   matchURL = function( string ) {
     var remu = new RegExp( "^(http:|https:)");
@@ -28,9 +26,7 @@ var Library = function() {
       return rema.test( string );
   },
   matchPhoneNo = function ( string ) {
-      var repn = new RegExp(
-        "^[0-9]{3}[\-][0-9]{3}[\-][0-9]{4}$"
-      );
+      var repn = new RegExp( '^[0-9]{3}[\-][0-9]{3}[\-][0-9]{4}$' );
       return repn.test( string );
   },
   toTitleCase = function( string ) {
@@ -70,11 +66,9 @@ var Library = function() {
     }
     else if( low < test && test < base) {
       return "below";
-    }
-    else {
-      return "out of range";
     };
-  }
+    return "out of range";
+  },
   sumArray = function( list ) {
     var sum = 0;
     for( var i = 0; i < list.length; i++ ) {
@@ -84,17 +78,18 @@ var Library = function() {
     };
     return sum;
   },
-  sortByKey = function( list, key ) {
-    var sbk = [], low;
-    for( var i = 0; i < list.length; i++ ) {
-      if( list[ i ][ key ] < low || low === undefined ) {
-        low = list[ i ][ key ];
-      };
-      if( i === list.length ) {
-        sbk[ sbk.length ] = low;
-      };
+  sortByKey = function( list, sortKey ) {
+    key = sortKey;
+    return list.sort(sBKCallback);
+  },
+  sBKCallback = function( obj1, obj2 ) {
+    if( obj1[ key ] > obj2[ key ]) {
+      return 1;
+    }
+    else if( obj1[ key ] === obj1[ key ]) {
+      return 0;
     };
-    return sbk;
+    return -1;
   };
   return {
     "changeSeperator": changeSeperator,
@@ -126,5 +121,5 @@ try {
   console.log( lib.sortByKey( [ { "a": 2 }, { "a": 3 }, { "a": 1 } ], "a" ));
 }
 catch( e ) {
- alert( e.message );
+ console.log( "Error: " + e.message );
 };

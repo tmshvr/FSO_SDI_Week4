@@ -24,14 +24,21 @@ var Library = function() {
     return remu.test( string );
   },
   matchEmail = function( string ) {
-      var rema = new RegExp( "^[\w_\.\-]+@[A-Za-z]{3,}\.[A-Za-z]{2,3}$");
+      var rema = new RegExp( '^[A-z]+@[A-z]{3,}\.[A-z]{2,3}$' );
       return rema.test( string );
+  },
+  matchPhoneNo = function ( string ) {
+      var repn = new RegExp(
+        "^[0-9]{3}[\-][0-9]{3}[\-][0-9]{4}$"
+      );
+      return repn.test( string );
   };
   return {
     "changeSeperator": changeSeperator,
     "stringToNumber": stringToNumber,
     "matchURL": matchURL,
-    "matchEmail": matchEmail
+    "matchEmail": matchEmail,
+    "matchPhoneNo": matchPhoneNo
   };
 };
 
@@ -41,6 +48,7 @@ try {
   console.log( lib.stringToNumber( "42" ));
   console.log( lib.matchURL( "https://www.w3schools.com" ));
   console.log( lib.matchEmail( "aaa@bbb.ccc" ));
+  console.log( lib.matchPhoneNo( "123-456-7890" ));
 }
 catch( e ) {
  alert( e.message );

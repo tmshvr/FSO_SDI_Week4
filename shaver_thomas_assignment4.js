@@ -57,7 +57,7 @@ var Library = function() {
   smallestGreaterThan = function( list, num ) {
     var sgt;
     for( var i = 0; i < list.length; i++ ) {
-      if( list[ i ] > num && (sgt === undefined || list[ i ] < sgt )) {
+      if( list[ i ] > num && (list[ i ] < sgt || sgt === undefined )) {
         sgt = list[ i ];
       };
     };
@@ -74,6 +74,27 @@ var Library = function() {
     else {
       return "out of range";
     };
+  }
+  sumArray = function( list ) {
+    var sum = 0;
+    for( var i = 0; i < list.length; i++ ) {
+      if( typeof( list[ i ]) === typeof( sum )) {
+        sum += list[ i ];
+      };
+    };
+    return sum;
+  },
+  sortByKey = function( list, key ) {
+    var sbk = [], low;
+    for( var i = 0; i < list.length; i++ ) {
+      if( list[ i ][ key ] < low || low === undefined ) {
+        low = list[ i ][ key ];
+      };
+      if( i === list.length ) {
+        sbk[ sbk.length ] = low;
+      };
+    };
+    return sbk;
   };
   return {
     "changeSeperator": changeSeperator,
@@ -84,7 +105,9 @@ var Library = function() {
     "toTitleCase": toTitleCase,
     "formatPrecision": formatPrecision,
     "smallestGreaterThan": smallestGreaterThan,
-    "fuzzyMatchPercent": fuzzyMatchPercent
+    "fuzzyMatchPercent": fuzzyMatchPercent,
+    "sumArray": sumArray,
+    "sortByKey": sortByKey
   };
 };
 
@@ -98,7 +121,9 @@ try {
   console.log( lib.toTitleCase( "s d i" ));
   console.log( lib.formatPrecision( "3.14159", 2 ));
   console.log( lib.smallestGreaterThan( [ 0, 2, 3, 5, 7, 13, 14, 19 ], 11 ));
-  console.log( lib.fuzzyMatchPercent( 5, 5.5, .10 ));
+  console.log( lib.fuzzyMatchPercent( 5, 5.5, .11 ));
+  console.log( lib.sumArray( [ 1, "2", 2, 3, "c", 4, 5, 6, "Seven", 7, 8, 9 ] ));
+  console.log( lib.sortByKey( [ { "a": 2 }, { "a": 3 }, { "a": 1 } ], "a" ));
 }
 catch( e ) {
  alert( e.message );

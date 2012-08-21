@@ -32,23 +32,48 @@ var Library = function() {
         "^[0-9]{3}[\-][0-9]{3}[\-][0-9]{4}$"
       );
       return repn.test( string );
+  },
+  toTitleCase = function( string ) {
+    var words = string.split( " " );
+    for( var i = 0; i < words.length; i++ ) {
+      var ttc = words[ i ].charAt(0);
+      ttc = ttc.toUpperCase();
+      ttc += words[ i ].substring( 1 );
+      words[ i ] = ttc;
+    };
+    return words.join( " " );
+  },
+  formatPrecision = function( string, precision ) {
+    var imaginary = string.split( "." ), padding = "";
+    imaginary[ 1 ] = imaginary[ 1 ].substr( 0, precision );
+    if( imaginary[ 1 ].length < precision ) {
+      // Add 0's for padding.
+      do {
+        padding += '0';
+      } while( padding.length + imaginary[ 1 ].length <  precision );
+    };
+    return imaginary.join( "." ) + padding;
   };
   return {
     "changeSeperator": changeSeperator,
     "stringToNumber": stringToNumber,
     "matchURL": matchURL,
     "matchEmail": matchEmail,
-    "matchPhoneNo": matchPhoneNo
+    "matchPhoneNo": matchPhoneNo,
+    "toTitleCase": toTitleCase,
+    "formatDecimalPrecision": formatPrecision
   };
 };
 
 var lib = new Library();
 try {
-  console.log( lib.changeSeperator( "Hello, world", ", ", " " ));
+  console.log( lib.changeSeperator( "Hello, world!", ", ", " " ));
   console.log( lib.stringToNumber( "42" ));
   console.log( lib.matchURL( "https://www.w3schools.com" ));
   console.log( lib.matchEmail( "aaa@bbb.ccc" ));
   console.log( lib.matchPhoneNo( "123-456-7890" ));
+  console.log( lib.toTitleCase( "s d i" ));
+  console.log( lib.formatPrecision( "3.14159", 2 ));
 }
 catch( e ) {
  alert( e.message );

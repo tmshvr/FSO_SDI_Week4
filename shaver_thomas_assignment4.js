@@ -53,6 +53,27 @@ var Library = function() {
       } while( padding.length + imaginary[ 1 ].length <  precision );
     };
     return imaginary.join( "." ) + padding;
+  },
+  smallestGreaterThan = function( list, num ) {
+    var sgt;
+    for( var i = 0; i < list.length; i++ ) {
+      if( list[ i ] > num && (sgt === undefined || list[ i ] < sgt )) {
+        sgt = list[ i ];
+      };
+    };
+    return sgt;
+  },
+  fuzzyMatchPercent = function( base, test, percent ) {
+    var high = base + ( base * percent ), low = base - ( base * percent );
+    if( high > test && test > base ) {
+      return "above";
+    }
+    else if( low < test && test < base) {
+      return "below";
+    }
+    else {
+      return "out of range";
+    };
   };
   return {
     "changeSeperator": changeSeperator,
@@ -61,7 +82,9 @@ var Library = function() {
     "matchEmail": matchEmail,
     "matchPhoneNo": matchPhoneNo,
     "toTitleCase": toTitleCase,
-    "formatDecimalPrecision": formatPrecision
+    "formatPrecision": formatPrecision,
+    "smallestGreaterThan": smallestGreaterThan,
+    "fuzzyMatchPercent": fuzzyMatchPercent
   };
 };
 
@@ -69,11 +92,13 @@ var lib = new Library();
 try {
   console.log( lib.changeSeperator( "Hello, world!", ", ", " " ));
   console.log( lib.stringToNumber( "42" ));
-  console.log( lib.matchURL( "https://www.w3schools.com" ));
+  console.log( lib.matchURL( "https://www.fullsail.com" ));
   console.log( lib.matchEmail( "aaa@bbb.ccc" ));
   console.log( lib.matchPhoneNo( "123-456-7890" ));
   console.log( lib.toTitleCase( "s d i" ));
   console.log( lib.formatPrecision( "3.14159", 2 ));
+  console.log( lib.smallestGreaterThan( [ 0, 2, 3, 5, 7, 13, 14, 19 ], 11 ));
+  console.log( lib.fuzzyMatchPercent( 5, 5.5, .10 ));
 }
 catch( e ) {
  alert( e.message );

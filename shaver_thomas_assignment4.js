@@ -8,14 +8,14 @@
 var Library = function() {
   var changeSeperator = function( string, seperator1, seperator2 ){
     // The replace method of the String object will replace all occurences of seperator1 with seperator2.
-    return string.replace( seperator1, seperator2 );
+    return string.replace( seperator1, seperator2, "g" );
   },
   stringToNumber = function( string ) {
     // parseInt looks at it's argument from start to finish and returns all of the numbers from the start
     // to the end, or from the start to the character before the first non-number in it's argument.
     var num = parseInt( string );
     if( isNaN( num )) { // If the value is Not a Number: (argument probably didn't start with a number)
-      num = null;
+      num = "Error: " + string + " is not a number.";
     };
     return num;
   },
@@ -51,18 +51,10 @@ var Library = function() {
     return words.join( " " );
   },
   formatPrecision = function( string, precision ) {
-    // Split the number into two parts: before and after the decimal point,
-    var imaginary = string.split( "." ), padding = "";
-    // and then get the numbers from after the decimal point up to precision.
-    imaginary[ 1 ] = imaginary[ 1 ].substr( 0, precision );
-    // If the number is shorter than the requested precision,
-    if( imaginary[ 1 ].length < precision ) {
-      // then add 0's for padding.
-      do {
-        padding += '0';
-      } while( padding.length + imaginary[ 1 ].length <  precision ); // until precision is met.
-    };
-    return imaginary.join( "." ) + padding;
+    if( isNaN( string )) {
+      return "Error: " + string + " is not a number.";
+    }
+    return parseFloat( string ).toFixed( precision );
   },
   smallestGreaterThan = function( list, num ) {
     var sgt;
@@ -143,7 +135,7 @@ var Library = function() {
 
 lib = new Library(),
 change = {
-  "string": "Hello, world!",
+  "string": "Hello, there, world!",
   "seperator": ", ",
   "joiner": " "
 },
